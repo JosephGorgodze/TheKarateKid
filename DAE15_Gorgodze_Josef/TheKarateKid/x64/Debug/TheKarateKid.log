@@ -1,23 +1,7 @@
-﻿  
-  
-      Directory: C:\Users\sgorg\Documents\TheKarateKidGame\TheKarateKid\DAE15_Gorgodze_Josef\TheKarateKid
-  
-  
-  Mode                 LastWriteTime         Length Name                                                                 
-  ----                 -------------         ------ ----                                                                 
-  d-----         7/18/2026   2:21 PM                Resources                                                            
-  
-  
-  Game.cpp
-  main.cpp
-  pch.cpp
+﻿  Player.cpp
   TheKarateKid.vcxproj -> C:\Users\sgorg\Documents\TheKarateKidGame\TheKarateKid\DAE15_Gorgodze_Josef\x64\Debug\TheKarateKid.exe
-  C:\Users\sgorg\Documents\TheKarateKidGame\TheKarateKid\DAE15_Gorgodze_Josef\Libraries\SDLMain\SDL2-2.30.11\lib\x64\SDL2.dll
-  1 File(s) copied
-  C:\Users\sgorg\Documents\TheKarateKidGame\TheKarateKid\DAE15_Gorgodze_Josef\Libraries\SDLImage\SDL2_image-2.8.4\lib\x64\SDL2_image.dll
-  1 File(s) copied
-  C:\Users\sgorg\Documents\TheKarateKidGame\TheKarateKid\DAE15_Gorgodze_Josef\Libraries\SDLMixer\SDL2_mixer-2.8.0\lib\x64\SDL2_mixer.dll
-  1 File(s) copied
-  C:\Users\sgorg\Documents\TheKarateKidGame\TheKarateKid\DAE15_Gorgodze_Josef\Libraries\SDLTtf\SDL2_ttf-2.24.0\lib\x64\SDL2_ttf.dll
-  1 File(s) copied
+  0 File(s) copied
+  0 File(s) copied
+  0 File(s) copied
+  0 File(s) copied
   0 File(s) copied
