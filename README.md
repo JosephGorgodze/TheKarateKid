@@ -124,12 +124,12 @@ Explain where you applied inheritance (mandatory).
 
 - [x] Accept / set up github project
 - [ ] week 01 topics applied
-    - [ ] const keyword applied proactively (variables, functions,..)
+    - [X] const keyword applied proactively (variables, functions,..)
     - [ ] static keyword applied proactively (class variables, static functions,..)
-    - [ ] object composition (optional)
-- [ ] week 02 topics applied
-- [ ] week 03 topics applied
-- [ ] week 04 topics applied
+    - [X] object composition (optional)
+- [X] week 02 topics applied
+- [X] week 03 topics applied
+- [X] week 04 topics applied
 - [ ] week 05 topics applied
 - [ ] week 06 topics applied
 - [ ] week 07 topics applied
