@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Game.h"
+#include <ctime>
+#include <cstdlib>
 
 Game::Game( const Window& window ) 
 	:BaseGame{ window }
@@ -9,28 +11,34 @@ Game::Game( const Window& window )
 
 Game::~Game( )
 {
-	Cleanup( );
+	Cleanup();
 }
 
 void Game::Initialize( )
 {
-	
+	m_pBackground = new Texture("Level1.png");
+	srand(unsigned(time(nullptr)));
 }
 
 void Game::Cleanup( )
 {
+	delete m_pBackground;
+	m_pBackground = nullptr;
 }
 
 void Game::Update( float elapsedSec )
 {
 	m_Player.PlayerUpdate(elapsedSec);
+	m_Enemy.EnemyUpdate(elapsedSec, m_Player.GetBounds());
 }
 
-void Game::Draw( ) const
+void Game::Draw() const
 {
 	ClearBackground();
 
+	m_pBackground->Draw();
 	m_Player.Draw();
+	m_Enemy.Draw();
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
