@@ -271,6 +271,22 @@ void Player::StartAttack(State attackState)
 	m_State = attackState;
 	m_FrameNr = 0;
 	m_AccuSec = 0.f;
+	m_HasHit = false;
+}
+
+void Player::SetHasHit(bool hasHit)
+{
+	m_HasHit = hasHit;
+}
+
+bool Player::GetHasHit() const
+{
+	return m_HasHit;
+}
+
+bool Player::IsAttacking() const
+{
+	return m_IsAttacking;
 }
 
 Rectf Player::GetBounds() const

@@ -24,6 +24,9 @@ public:
 	bool AnimationLoops() const;
 	Rectf GetBounds() const;
 
+	bool IsAttacking() const;
+	bool GetHasHit() const;
+	void SetHasHit(bool hasHit);
 	Rectf GetHurtBox() const;
 	Rectf GetAttackBox() const;
 private:
@@ -38,10 +41,11 @@ private:
 	float m_FrameTime{ 0.15f };
 	bool m_FacingRight{ true };
 	float m_VelocityY{};
-	const float m_Gravity{-1500};
+	const float m_Gravity{-1000};
 	bool m_OnGround{ true };
 	bool m_IsAttacking{};
 	bool m_IsCrouching{ false };
+	bool m_HasHit{};
 
 	Rectf GetCurrentFrame() const;
 	int GetFrameCount() const;

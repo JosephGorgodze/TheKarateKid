@@ -23,6 +23,10 @@ public:
 
 	void EnemyUpdate(float elapsedSec, const Rectf& playerBounds);
 	void Draw() const;
+	bool isAttacking() const;
+	bool GetHasHit() const;
+	void SetHasHit(bool hasHit);
+	Rectf GetBounds() const;
 
 private:
 	Texture* m_pSpriteSheet{ nullptr };
@@ -36,6 +40,7 @@ private:
 	float m_MoveDirection{ -1.f };
 	bool m_IsAttacking{ false };
 	float m_TimeUntilAttack{};
+	bool m_HasHit{};
 
 	Rectf GetCurrentFrame() const;
 	void UpdateAnimation(float elapsedSec);

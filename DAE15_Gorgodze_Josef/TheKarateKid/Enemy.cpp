@@ -140,7 +140,23 @@ void Enemy::StartAttack()
 
 	m_FrameNr = 0;
 	m_AccuSec = 0.f;
+	m_HasHit = false;
 	m_TimeUntilAttack = 0.8f + float(rand() % 8) / 10.f; // Attack Cooldown
+}
+
+bool Enemy::isAttacking() const
+{
+	return m_IsAttacking;
+}
+
+bool Enemy::GetHasHit() const
+{
+	return m_HasHit;
+}
+
+void Enemy::SetHasHit(bool hasHit)
+{
+	m_HasHit = hasHit;
 }
 
 void Enemy::UpdateAnimation(float elapsedSec)
@@ -220,3 +236,7 @@ Rectf Enemy::GetCurrentFrame() const
 	return Rectf{ m_FrameNr * frameWidth, row * frameHeight, frameWidth, frameHeight };
 }
 
+Rectf Enemy::GetBounds() const
+{
+	return m_Bounds;
+}

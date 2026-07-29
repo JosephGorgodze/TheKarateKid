@@ -2,6 +2,8 @@
 #include "Game.h"
 #include <ctime>
 #include <cstdlib>
+#include <utils.h>
+#include <iostream>
 
 Game::Game( const Window& window ) 
 	:BaseGame{ window }
@@ -30,6 +32,23 @@ void Game::Update( float elapsedSec )
 {
 	m_Player.PlayerUpdate(elapsedSec);
 	m_Enemy.EnemyUpdate(elapsedSec, m_Player.GetBounds());
+	//Hit detection
+	if (m_Player.IsAttacking() && !m_Player.GetHasHit())
+	{
+		if (utils::IsOverlapping(m_Player.GetBounds(), m_Enemy.GetBounds()))
+		{
+			std::cout << "Enemy hit!\n";
+			m_Player.SetHasHit(true);
+		}
+	}
+		if (m_Enemy.isAttacking() && !m_Enemy.GetHasHit())
+		{
+			if (utils::IsOverlapping(m_Player.GetBounds(), m_Enemy.GetBounds()))
+			{
+				std::cout << "Player hit!\n";
+				m_Enemy.SetHasHit(true);
+			}
+		}
 }
 
 void Game::Draw() const
