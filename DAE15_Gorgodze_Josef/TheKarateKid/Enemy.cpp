@@ -16,6 +16,7 @@ Enemy::~Enemy()
 
 void Enemy::EnemyUpdate(float elapsedSec, const Rectf& playerBounds)
 {
+	UpdateFall(elapsedSec);
 	Think(playerBounds);
 	Move(elapsedSec);
 	UpdateAnimation(elapsedSec);
@@ -71,7 +72,7 @@ bool Enemy::AnimationLoops() const
 
 void Enemy::Think(const Rectf& playerBounds)
 {
-	if (m_IsAttacking)
+	if (m_IsAttacking || m_IsFalling)
 	{
 		return;
 	}
@@ -79,7 +80,7 @@ void Enemy::Think(const Rectf& playerBounds)
 	float playerCenter = playerBounds.left + playerBounds.width / 2.f;
 	float enemyCenter = m_Bounds.left + m_Bounds.width / 2.f;
 	float distance = playerCenter - enemyCenter;
-	if (abs(distance) > 35.f) //Range start attacking
+	if (abs(distance) > 60.f) //Range start attacking
 	{
 		m_State = State::Walk;
 
@@ -111,6 +112,18 @@ void Enemy::Think(const Rectf& playerBounds)
 
 void Enemy::Move(float elapsedSec)
 {
+	const float leftLimit{ 100.f };
+	const float rightLimit{ 600.f };
+
+	if (m_Bounds.left < leftLimit)
+	{
+		m_Bounds.left = leftLimit;
+	}
+	else if (m_Bounds.left > rightLimit)
+	{
+		m_Bounds.left = rightLimit;
+	}
+
 	if (m_State != State::Walk)
 	{
 		return;
@@ -157,6 +170,21 @@ bool Enemy::GetHasHit() const
 void Enemy::SetHasHit(bool hasHit)
 {
 	m_HasHit = hasHit;
+}
+
+bool Enemy::GetFacingRight() const
+{
+	return m_FacingRight;
+}
+
+int Enemy::GetComboHits() const
+{
+	return m_ComboHits;
+}
+
+int Enemy::GetMaxComboHits() const
+{
+	return m_MaxComboHits;
 }
 
 void Enemy::UpdateAnimation(float elapsedSec)
@@ -227,7 +255,7 @@ Rectf Enemy::GetCurrentFrame() const
 		row = 10;
 		break;
 	case State::Fall:
-		row = 11;
+		row = 8;
 		break;
 	default:
 		row = 0;
@@ -239,4 +267,91 @@ Rectf Enemy::GetCurrentFrame() const
 Rectf Enemy::GetBounds() const
 {
 	return m_Bounds;
+}
+
+Rectf Enemy::GetAttackBox() const
+{
+	if (!m_IsAttacking)
+	{
+		return Rectf{};
+	}
+	
+	float y{ m_Bounds.bottom + 25.f };
+
+	switch (m_State)
+	{
+	case State::CrouchPunch:
+	case State::CrouchKick:
+		y = m_Bounds.bottom + 5.f;
+		break;
+
+	default:
+		y = m_Bounds.bottom + 25.f;
+		break;
+	}
+
+	if (m_FacingRight)
+	{
+		return Rectf{ m_Bounds.left + m_Bounds.width - 40.f, y + 30.f, 35.f, 25.f };
+	}
+
+	return Rectf{ m_Bounds.left, y + 30.f, 35.f, 25.f };
+}
+
+Rectf Enemy::GetHurtBox() const
+{
+	if (m_State == State::Crouch || m_State == State::CrouchPunch || m_State == State::CrouchKick)
+	{
+		return Rectf{ m_Bounds.left + 20.f, m_Bounds.bottom, 40.f, 45.f };
+	}
+	return Rectf{ m_Bounds.left + 20.f, m_Bounds.bottom, 40.f, 90.f };
+}
+
+bool Enemy::AttackIsActive() const
+{
+	if (!m_IsAttacking)
+		return false;
+	return m_FrameNr == 1;
+}
+
+void Enemy::StartFall(bool hitFromRight)
+{
+	++m_ComboHits;
+	m_IsAttacking = false;
+	m_IsFalling = true;
+	m_State = State::Fall;
+	m_FrameNr = 0;
+	m_AccuSec = 0.f;
+	m_VelocityY = 350.f;
+
+	if (m_ComboHits >= m_MaxComboHits)
+	{
+		return;
+	}
+
+	if (hitFromRight)
+	{
+		m_FallVelocityX = -220.f;
+	}
+	else
+		m_FallVelocityX = 220.f;
+}
+
+void Enemy::UpdateFall(float elapsedSec)
+{
+	if (!m_IsFalling)
+		return;
+	m_VelocityY += m_Gravity * elapsedSec;
+	m_Bounds.left += m_FallVelocityX * elapsedSec;
+	m_Bounds.bottom += m_VelocityY * elapsedSec;
+
+	if (m_Bounds.bottom <= m_GroundY)
+	{
+		m_Bounds.bottom = m_GroundY;
+		m_IsFalling = false;
+		m_FallVelocityX = 0.f;
+		m_VelocityY = 0.f;
+		m_ComboHits = 0;
+		m_State = State::Idle;
+	}
 }

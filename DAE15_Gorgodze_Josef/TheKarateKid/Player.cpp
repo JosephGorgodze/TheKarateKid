@@ -21,6 +21,7 @@ void Player::PlayerUpdate(float elapsedSec)
 	const Uint8* keyboardState = SDL_GetKeyboardState(nullptr);
 	HandleMovement(elapsedSec, keyboardState);
 	UpdateAnimation(elapsedSec);
+	UpdateFall(elapsedSec);
 }
 
 void Player::Draw() const
@@ -101,10 +102,20 @@ bool Player::AnimationLoops() const
 
 void Player::HandleMovement(float elapsedSec, const Uint8* keyboardState)
 {
-	const float speed{ 150.f };
 	State previousState{ m_State };
+	const float leftLimit{ 100.f };
+	const float rightLimit{ 600.f };
 
-	if (m_IsAttacking)
+	if (m_Bounds.left < leftLimit)
+	{
+		m_Bounds.left = leftLimit;
+	}
+	else if (m_Bounds.left > rightLimit)
+	{
+		m_Bounds.left = rightLimit;
+	}
+
+	if (m_IsAttacking || m_IsFalling)
 	{
 		return;
 	}
@@ -128,7 +139,7 @@ void Player::HandleMovement(float elapsedSec, const Uint8* keyboardState)
 
 	if (!m_IsCrouching && keyboardState[SDL_SCANCODE_LEFT])
 	{
-		m_Bounds.left -= speed * elapsedSec;
+		m_Bounds.left -= m_MoveSpeed * elapsedSec;
 		if (m_OnGround)
 		{
 			m_State = State::Walk;
@@ -137,7 +148,7 @@ void Player::HandleMovement(float elapsedSec, const Uint8* keyboardState)
 	}
 	else if (!m_IsCrouching && keyboardState[SDL_SCANCODE_RIGHT])
 	{
-		m_Bounds.left += speed * elapsedSec;
+		m_Bounds.left += m_MoveSpeed * elapsedSec;
 		if (m_OnGround)
 		{
 			m_State = State::Walk;
@@ -181,7 +192,7 @@ void Player::HandleMovement(float elapsedSec, const Uint8* keyboardState)
 		m_AccuSec = 0.f;
 	}
 
-	if (!m_OnGround)
+	if (!m_OnGround && !m_IsFalling)
 	{
 		m_VelocityY += m_Gravity * elapsedSec;
 		m_Bounds.bottom += m_VelocityY * elapsedSec;
@@ -233,7 +244,7 @@ Rectf Player::GetCurrentFrame() const
 		row = 10;
 		break;
 	case State::Fall:
-		row = 11;
+		row = 8;
 		break;
 	default:
 		row = 0;
@@ -274,6 +285,44 @@ void Player::StartAttack(State attackState)
 	m_HasHit = false;
 }
 
+void Player::StartFall(bool hitFromRight)
+{
+	m_IsAttacking = false;
+	m_OnGround = false;
+	m_IsFalling = true;
+	m_State = State::Fall;
+	m_FrameNr = 0;
+	m_AccuSec = 0.f;
+	m_VelocityY = 350.f;
+
+	if (hitFromRight)
+	{
+		m_FallVelocityX = -220.f;
+	}
+	else
+		m_FallVelocityX = 220.f;
+}
+
+void Player::UpdateFall(float elapsedSec)
+{
+	if (!m_IsFalling)
+		return;
+
+	m_VelocityY += m_Gravity * elapsedSec;
+	m_Bounds.left += m_FallVelocityX * elapsedSec;
+	m_Bounds.bottom += m_VelocityY * elapsedSec;
+
+	if (m_Bounds.bottom <= m_GroundY)
+	{
+		m_Bounds.bottom = m_GroundY;
+		m_IsFalling = false;
+		m_OnGround = true;
+		m_FallVelocityX = 0.f;
+		m_VelocityY = 0.f;
+		m_State = State::Idle;
+	}
+}
+
 void Player::SetHasHit(bool hasHit)
 {
 	m_HasHit = hasHit;
@@ -284,9 +333,21 @@ bool Player::GetHasHit() const
 	return m_HasHit;
 }
 
-bool Player::IsAttacking() const
+bool Player::GetFacingRight() const
+{
+	return m_FacingRight;
+}
+
+bool Player::GetIsAttacking() const
 {
 	return m_IsAttacking;
+}
+
+bool Player::AttackIsActive() const
+{
+	if (!m_IsAttacking)
+		return false;
+	return m_FrameNr == 1;
 }
 
 Rectf Player::GetBounds() const
@@ -296,19 +357,36 @@ Rectf Player::GetBounds() const
 
 Rectf Player::GetHurtBox() const
 {
+	if (m_State == State::Crouch || m_State == State::CrouchPunch || m_State == State::CrouchKick)
+	{
+		return Rectf{ m_Bounds.left + 20.f, m_Bounds.bottom, 40.f, 45.f };
+	}
 	return Rectf{ m_Bounds.left + 20.f, m_Bounds.bottom, 40.f, 90.f };
 }
 
 Rectf Player::GetAttackBox() const
 {
-	return Rectf();
 	if (!m_IsAttacking)
 	{
 		return Rectf{};
 	}
+
+	float y{ m_Bounds.bottom + 25.f };
+
+	switch (m_State)
+	{
+		case State::CrouchPunch:
+		case State::CrouchKick:
+			y = m_Bounds.bottom + 5.f;
+			break;
+		default:
+			y = m_Bounds.bottom + 25.f;
+			break;
+	}
+
 	if (m_FacingRight)
 	{
-		return Rectf{ m_Bounds.left + m_Bounds.width, m_Bounds.bottom + 20.f, 35.f, 25.f };
+		return Rectf{ m_Bounds.left + m_Bounds.width - 30.f, y + 30.f, 35.f, 25.f };
 	}
-	return Rectf{ m_Bounds.left - 35.f, m_Bounds.bottom + 20.f, 35.f, 25.f };
+	return Rectf{ m_Bounds.left, y + 30.f, 35.f, 25.f };
 }

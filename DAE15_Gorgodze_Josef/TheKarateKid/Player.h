@@ -24,15 +24,19 @@ public:
 	bool AnimationLoops() const;
 	Rectf GetBounds() const;
 
-	bool IsAttacking() const;
+	bool GetIsAttacking() const;
+	bool AttackIsActive() const;
 	bool GetHasHit() const;
+	bool GetFacingRight() const;
 	void SetHasHit(bool hasHit);
+	void StartFall(bool hitFromRight);
 	Rectf GetHurtBox() const;
 	Rectf GetAttackBox() const;
 private:
 	void HandleMovement(float elapsedSec, const Uint8* keyboardState); //Detects state of every key on the keyboard
 
 	Texture* m_pSpriteSheet{ nullptr };
+	float m_MoveSpeed{ 200.f };
 	const float m_GroundY{ 100.f };
 	Rectf m_Bounds{100.f, m_GroundY, 80.f, 96.f};
 	State m_State{ State::Idle };
@@ -47,8 +51,13 @@ private:
 	bool m_IsCrouching{ false };
 	bool m_HasHit{};
 
+	//Knockback
+	bool m_IsFalling{};
+	float m_FallVelocityX{};
+
 	Rectf GetCurrentFrame() const;
 	int GetFrameCount() const;
 	void StartAttack(State attackState);
+	void UpdateFall(float elapsedSec);
 };
 

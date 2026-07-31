@@ -23,10 +23,19 @@ public:
 
 	void EnemyUpdate(float elapsedSec, const Rectf& playerBounds);
 	void Draw() const;
+	bool AttackIsActive() const;
 	bool isAttacking() const;
 	bool GetHasHit() const;
 	void SetHasHit(bool hasHit);
+	bool GetFacingRight() const;
+	int GetComboHits() const;
+	int GetMaxComboHits() const;
 	Rectf GetBounds() const;
+	Rectf GetAttackBox() const;
+	Rectf GetHurtBox() const;
+
+	//Knockback
+	void StartFall(bool hitFromRight);
 
 private:
 	Texture* m_pSpriteSheet{ nullptr };
@@ -36,11 +45,22 @@ private:
 	float m_AccuSec{};
 	float m_FrameTime{ 0.15f };
 	bool m_FacingRight{ false };
-	float m_MoveSpeed{ 50.f };
+	float m_MoveSpeed{ 150.f };
 	float m_MoveDirection{ -1.f };
 	bool m_IsAttacking{ false };
 	float m_TimeUntilAttack{};
 	bool m_HasHit{};
+
+	//Knockback
+	bool m_IsFalling{};
+	float m_FallVelocityX{};
+	float m_VelocityY{};
+	const float m_Gravity{ -1000 };
+	float m_GroundY{ 100 };
+
+	//Combos
+	int m_ComboHits{};
+	const int m_MaxComboHits{3};
 
 	Rectf GetCurrentFrame() const;
 	void UpdateAnimation(float elapsedSec);
@@ -50,6 +70,7 @@ private:
 	void Think(const Rectf& playerBounds);
 	void Move(float elapsedSec);
 	void StartAttack();
+	void UpdateFall(float elapsedSec);
 	State previousState{ m_State };
 };
 
