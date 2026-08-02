@@ -355,3 +355,23 @@ void Enemy::UpdateFall(float elapsedSec)
 		m_State = State::Idle;
 	}
 }
+
+int Enemy::GetHealth() const
+{
+	return m_Health;
+}
+
+int Enemy::GetMaxHealth() const
+{
+	return m_MaxHealth;
+}
+
+void Enemy::TakeDamage(int damage)
+{
+	m_Health -= damage;
+
+	if (m_Health < 0)
+	{
+		m_Health = 0;
+	}
+}

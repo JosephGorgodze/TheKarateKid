@@ -44,6 +44,7 @@ void Game::Update( float elapsedSec )
 				std::cout << "Enemy hit!\n";
 				m_Enemy.StartFall(playerIsRightOfEnemy);
 				m_Player.SetHasHit(true);
+				m_Enemy.TakeDamage(2);
 			}
 		}
 	}
@@ -55,6 +56,7 @@ void Game::Update( float elapsedSec )
 			std::cout << "Player hit\n";
 			m_Player.StartFall(enemyIsRightOfPlayer);
 			m_Enemy.SetHasHit(true);
+			m_Player.TakeDamage(2);
 		}
 	}
 }
@@ -66,6 +68,7 @@ void Game::Draw() const
 	m_pBackground->Draw();
 	m_Player.Draw();
 	m_Enemy.Draw();
+	m_HUD.Draw(m_Player, m_Enemy);
 
 	utils::SetColor(Color4f(1.f, 1.f, 1.f, 1.f));
 	utils::DrawRect(m_Player.GetAttackBox());

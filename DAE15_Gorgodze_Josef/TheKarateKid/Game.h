@@ -2,6 +2,8 @@
 #include "BaseGame.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "HUD.h"
+
 class Game : public BaseGame
 {
 public:
@@ -33,4 +35,5 @@ private:
 	Player m_Player;
 	Enemy m_Enemy;
 	Texture* m_pBackground{ nullptr };
+	HUD m_HUD{};
 };

@@ -34,6 +34,10 @@ public:
 	Rectf GetAttackBox() const;
 	Rectf GetHurtBox() const;
 
+	int GetHealth() const;
+	int GetMaxHealth() const;
+	void TakeDamage(int damage);
+
 	//Knockback
 	void StartFall(bool hitFromRight);
 
@@ -50,6 +54,9 @@ private:
 	bool m_IsAttacking{ false };
 	float m_TimeUntilAttack{};
 	bool m_HasHit{};
+
+	int m_Health{ 20 };
+	static constexpr int m_MaxHealth{ 20 };
 
 	//Knockback
 	bool m_IsFalling{};

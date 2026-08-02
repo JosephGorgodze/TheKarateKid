@@ -32,6 +32,10 @@ public:
 	void StartFall(bool hitFromRight);
 	Rectf GetHurtBox() const;
 	Rectf GetAttackBox() const;
+
+	int GetHealth() const;
+	int GetMaxHealth() const;
+	void TakeDamage(int damage);
 private:
 	void HandleMovement(float elapsedSec, const Uint8* keyboardState); //Detects state of every key on the keyboard
 
@@ -50,6 +54,9 @@ private:
 	bool m_IsAttacking{};
 	bool m_IsCrouching{ false };
 	bool m_HasHit{};
+
+	int m_Health{20};
+	static constexpr int m_MaxHealth{ 20 };
 
 	//Knockback
 	bool m_IsFalling{};

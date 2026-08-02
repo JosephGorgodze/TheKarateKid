@@ -303,6 +303,26 @@ void Player::StartFall(bool hitFromRight)
 		m_FallVelocityX = 220.f;
 }
 
+int Player::GetHealth() const
+{
+	return m_Health;
+}
+
+int Player::GetMaxHealth() const
+{
+	return m_MaxHealth;
+}
+
+void Player::TakeDamage(int damage)
+{
+	m_Health -= damage;
+
+	if (m_Health < 0)
+	{
+		m_Health = 0;
+	}
+}
+
 void Player::UpdateFall(float elapsedSec)
 {
 	if (!m_IsFalling)
