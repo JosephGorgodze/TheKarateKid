@@ -375,3 +375,26 @@ void Enemy::TakeDamage(int damage)
 		m_Health = 0;
 	}
 }
+
+void Enemy::Reset()
+{
+	m_Bounds.left = 500.f;
+	m_Bounds.bottom = m_GroundY;
+	m_State = State::Idle;
+	m_FrameNr = 0;
+	m_AccuSec = 0.f;
+	m_IsAttacking = false;
+	m_IsFalling = false;
+	m_VelocityY = 0.f;
+	m_FallVelocityX = 0.f;
+	m_MoveDirection = -1.f;
+	m_FacingRight = false;
+	m_HasHit = false;
+	m_TimeUntilAttack = 0.f;
+	m_ComboHits = 0;
+}
+
+void Enemy::ResetHealth()
+{
+	m_Health = GetMaxHealth();
+}

@@ -3,32 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Text.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|solutionrelative:TheKarateKid\\Text.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|solutionrelative:TheKarateKid\\Game.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|solutionrelative:TheKarateKid\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Text.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|solutionrelative:TheKarateKid\\Text.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|solutionrelative:TheKarateKid\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|solutionrelative:TheKarateKid\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|solutionrelative:TheKarateKid\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|solutionrelative:TheKarateKid\\Player.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|solutionrelative:TheKarateKid\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|solutionrelative:TheKarateKid\\Game.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|solutionrelative:TheKarateKid\\Enemy.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Text.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|solutionrelative:TheKarateKid\\Text.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D1F1753C-D346-42CF-A0DE-6C1094CD0B84}|TheKarateKid\\TheKarateKid.vcxproj|C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -46,24 +50,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 7,
               "Title": "Text.h",
               "DocumentMoniker": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Text.h",
               "RelativeDocumentMoniker": "TheKarateKid\\Text.h",
               "ToolTip": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Text.h",
               "RelativeToolTip": "TheKarateKid\\Text.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-08-02T10:51:53.866Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 1,
+              "Title": "Text.cpp",
+              "DocumentMoniker": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Text.cpp",
+              "RelativeDocumentMoniker": "TheKarateKid\\Text.cpp",
+              "ToolTip": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Text.cpp",
+              "RelativeToolTip": "TheKarateKid\\Text.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-08-02T11:58:49.947Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "main.cpp",
               "DocumentMoniker": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\main.cpp",
               "RelativeDocumentMoniker": "TheKarateKid\\main.cpp",
@@ -71,11 +88,12 @@
               "RelativeToolTip": "TheKarateKid\\main.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-07-31T14:02:25.208Z"
+              "WhenOpened": "2026-07-31T14:02:25.208Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "pch.h",
               "DocumentMoniker": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\pch.h",
               "RelativeDocumentMoniker": "TheKarateKid\\pch.h",
@@ -87,27 +105,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Game.h",
-              "DocumentMoniker": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Game.h",
-              "RelativeDocumentMoniker": "TheKarateKid\\Game.h",
-              "ToolTip": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Game.h",
-              "RelativeToolTip": "TheKarateKid\\Game.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-07-28T13:43:58.107Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Player.h",
               "DocumentMoniker": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Player.h",
               "RelativeDocumentMoniker": "TheKarateKid\\Player.h",
               "ToolTip": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Player.h",
               "RelativeToolTip": "TheKarateKid\\Player.h",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAACUAAAALAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABUAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-07-28T15:04:01.356Z"
+              "WhenOpened": "2026-07-28T15:04:01.356Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -117,21 +124,23 @@
               "RelativeDocumentMoniker": "TheKarateKid\\Player.cpp",
               "ToolTip": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Player.cpp",
               "RelativeToolTip": "TheKarateKid\\Player.cpp",
-              "ViewState": "AgIAACIBAAAAAAAAAAAAAD0BAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-07-28T15:05:12.937Z"
+              "WhenOpened": "2026-07-28T15:05:12.937Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Enemy.h",
               "DocumentMoniker": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Enemy.h",
               "RelativeDocumentMoniker": "TheKarateKid\\Enemy.h",
               "ToolTip": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Enemy.h",
               "RelativeToolTip": "TheKarateKid\\Enemy.h",
-              "ViewState": "AgIAABAAAAAAAAAAAAAAACAAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAABcAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-07-28T10:20:56.741Z"
+              "WhenOpened": "2026-07-28T10:20:56.741Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -141,19 +150,33 @@
               "RelativeDocumentMoniker": "TheKarateKid\\Enemy.cpp",
               "ToolTip": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Enemy.cpp",
               "RelativeToolTip": "TheKarateKid\\Enemy.cpp",
-              "ViewState": "AgIAAFIBAAAAAAAAAAAAAG0BAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAAHgBAAAAAAAAAAAAAI4BAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-07-28T10:24:41.166Z"
+              "WhenOpened": "2026-07-28T10:24:41.166Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
+              "Title": "Game.h",
+              "DocumentMoniker": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Game.h",
+              "RelativeDocumentMoniker": "TheKarateKid\\Game.h",
+              "ToolTip": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Game.h",
+              "RelativeToolTip": "TheKarateKid\\Game.h",
+              "ViewState": "AgIAACAAAAAAAAAAAAAAADgAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-07-28T13:43:58.107Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "Game.cpp",
               "DocumentMoniker": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Game.cpp",
               "RelativeDocumentMoniker": "TheKarateKid\\Game.cpp",
               "ToolTip": "C:\\Users\\sgorg\\Documents\\TheKarateKidGame\\TheKarateKid\\DAE15_Gorgodze_Josef\\TheKarateKid\\Game.cpp",
               "RelativeToolTip": "TheKarateKid\\Game.cpp",
-              "ViewState": "AgIAABcAAAAAAAAAAAAAADoAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAAAHwAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-07-28T10:21:09.046Z",
               "EditorCaption": ""

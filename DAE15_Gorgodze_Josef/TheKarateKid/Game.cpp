@@ -30,6 +30,57 @@ void Game::Cleanup( )
 
 void Game::Update( float elapsedSec )
 {
+
+
+	switch (m_GamesState)
+	{
+	case GameState::Intro:
+		UpdateIntro(elapsedSec);
+		break;
+	case GameState::Playing:
+		UpdateGameplay(elapsedSec);
+		break;
+	case GameState::RoundWon:
+		UpdateRoundWon(elapsedSec);
+		break;
+	case GameState::RoundLost:
+		UpdateRoundLost(elapsedSec);
+		break;
+	case GameState::GameOver:
+		UpdateGameOver(elapsedSec);
+		break;
+	}
+}
+
+void Game::UpdateIntro(float elapsedSec)
+{
+	if (m_StateTimer <= 0.f)
+	{
+		if (m_CurrentRound == 1)
+		{
+			m_RoundText.SetText("FIRST ROUND");
+		}
+		else if (m_CurrentRound == 2)
+		{
+			m_RoundText.SetText("SECOND ROUND");
+		}
+		else if (m_CurrentRound == 3)
+		{
+			m_RoundText.SetText("FINAL ROUND");
+		}
+		m_TitleText.SetText("KARATE TOURNAMENT");
+		m_LivesText.SetText("CHANCES REMAINING " + std::to_string(m_Lives) + ".");
+	}
+	m_StateTimer += elapsedSec;
+	if (m_StateTimer >= 3.f)
+	{
+		m_StateTimer = 0.f;
+		m_GamesState = GameState::Playing;
+	}
+}
+
+void Game::UpdateGameplay(float elapsedSec)
+{
 	m_Player.PlayerUpdate(elapsedSec);
 	m_Enemy.EnemyUpdate(elapsedSec, m_Player.GetBounds());
 	bool playerIsRightOfEnemy = m_Player.GetBounds().left > m_Enemy.GetBounds().left;
@@ -59,24 +110,112 @@ void Game::Update( float elapsedSec )
 			m_Player.TakeDamage(2);
 		}
 	}
+
+	if (m_Enemy.GetHealth() <= 0)
+	{
+		m_GamesState = GameState::RoundWon;
+		m_StateTimer = 0.f;
+		m_RoundText.SetText("ROUND WON");
+	}
+
+	if (m_Player.GetHealth() <= 0)
+	{
+		m_Lives--;
+		std::cout << "Lives: " << m_Lives << '\n';
+		m_LivesText.SetText("CHANCES REAMINING " + std::to_string(m_Lives) + ".");
+		m_GamesState = GameState::RoundLost;
+		m_StateTimer = 0.f;
+		m_RoundText.SetText("ROUND LOST");
+	}
 }
+
+void Game::UpdateRoundWon(float elapsedSec)
+{
+	m_StateTimer += elapsedSec;
+
+	if (m_StateTimer >= 3.f)
+	{
+		m_CurrentRound++;
+		if (m_CurrentRound > 3)
+		{
+			m_RoundText.SetText("YOU WIN");
+			m_GamesState = GameState::GameOver;
+		}
+		else
+		{
+			m_Enemy.Reset();
+			m_Player.Reset();
+			m_Enemy.ResetHealth();
+			m_StateTimer = 0.f;
+			m_GamesState = GameState::Intro;
+		}
+	}
+}
+
+void Game::UpdateRoundLost(float elapsedSec)
+{
+	m_StateTimer += elapsedSec;
+
+	if (m_StateTimer >= 3.f)
+	{
+
+		if (m_Lives <= 0)
+		{
+			m_RoundText.SetText("GAME OVER");
+			m_GamesState = GameState::GameOver;
+		}
+		else
+		{
+			m_Player.Reset();
+			m_Enemy.Reset();
+			m_Player.ResetHealth();
+			m_LivesText.SetText("CHANCES REMAINING " + std::to_string(m_Lives) + ".");
+			m_GamesState = GameState::Intro;
+		}
+		m_StateTimer = 0.f;
+	}
+}
+
+void Game::UpdateGameOver(float elapsedSec)
+{
+	
+}
+
+
+
 
 void Game::Draw() const
 {
 	ClearBackground();
 
-	m_pBackground->Draw();
-	m_Player.Draw();
-	m_Enemy.Draw();
-	m_HUD.Draw(m_Player, m_Enemy);
 
-	utils::SetColor(Color4f(1.f, 1.f, 1.f, 1.f));
-	utils::DrawRect(m_Player.GetAttackBox());
-	utils::DrawRect(m_Player.GetHurtBox());
-	
-	utils::SetColor(Color4f(1.f, 0.f, 0.f, 1.f));
-	utils::DrawRect(m_Enemy.GetAttackBox());
-	utils::DrawRect(m_Enemy.GetHurtBox());
+	switch (m_GamesState)
+	{
+	case GameState::Intro:
+	case GameState::RoundLost:
+	case GameState::RoundWon:
+	case GameState::GameOver:
+		m_TitleText.Draw(Vector2f(130.f, 430.f));
+		m_RoundText.Draw(Vector2f{ 200.f, 300.f });
+		m_LivesText.Draw(Vector2f{ 100.f, 120.f });
+		break;
+		
+	case GameState::Playing:
+		m_pBackground->Draw();
+		m_Player.Draw();
+		m_Enemy.Draw();
+		m_HUD.Draw(m_Player, m_Enemy);
+
+		utils::SetColor(Color4f(1.f, 1.f, 1.f, 1.f));
+		utils::DrawRect(m_Player.GetAttackBox());
+		utils::DrawRect(m_Player.GetHurtBox());
+
+		utils::SetColor(Color4f(1.f, 0.f, 0.f, 1.f));
+		utils::DrawRect(m_Enemy.GetAttackBox());
+		utils::DrawRect(m_Enemy.GetHurtBox());
+
+		break;
+	}
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
@@ -144,6 +283,6 @@ void Game::ProcessMouseUpEvent( const SDL_MouseButtonEvent& e )
 
 void Game::ClearBackground( ) const
 {
-	glClearColor( 0.0f, 0.0f, 0.3f, 1.0f );
+	glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
 	glClear( GL_COLOR_BUFFER_BIT );
 }

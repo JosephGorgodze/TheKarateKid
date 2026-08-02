@@ -18,6 +18,8 @@ public:
 	};
 	Player();
 	~Player();
+	void Reset();
+	void ResetHealth();
 	void PlayerUpdate(float elapsedSec);
 	void Draw() const;
 	void UpdateAnimation(float elapsedSec);

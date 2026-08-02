@@ -16,6 +16,28 @@ Player::~Player()
 	m_pSpriteSheet = nullptr;
 }
 
+void Player::Reset()
+{
+	m_Bounds.left = 100.f;
+	m_Bounds.bottom = m_GroundY;
+	m_State = State::Idle;
+	m_FrameNr = 0;
+	m_AccuSec = 0.f;
+	m_IsAttacking = false;
+	m_IsFalling = false;
+	m_IsCrouching = false;
+	m_OnGround = true;
+	m_VelocityY = 0.f;
+	m_FallVelocityX = 0.f;
+	m_FacingRight = true;
+	m_HasHit = false;
+}
+
+void Player::ResetHealth()
+{
+	m_Health = GetMaxHealth();
+}
+
 void Player::PlayerUpdate(float elapsedSec)
 {
 	const Uint8* keyboardState = SDL_GetKeyboardState(nullptr);

@@ -20,7 +20,8 @@ public:
 
 	Enemy();
 	~Enemy();
-
+	void Reset();
+	void ResetHealth();
 	void EnemyUpdate(float elapsedSec, const Rectf& playerBounds);
 	void Draw() const;
 	bool AttackIsActive() const;

@@ -7,7 +7,7 @@ public:
 	Text(const std::string& fontPath, int size);
 	~Text();
 
-	void SetText(const std::string& fontPath, int size);
+	void SetText(const std::string& text);
 	void Draw(const Vector2f& position) const;
 
 private:
