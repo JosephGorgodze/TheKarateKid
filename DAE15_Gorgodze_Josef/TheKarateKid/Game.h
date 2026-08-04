@@ -9,6 +9,7 @@ enum class GameState
 {
 	Intro,
 	Playing,
+	FinishRound,
 	RoundWon,
 	RoundLost,
 	GameOver
@@ -47,10 +48,12 @@ private:
 	void UpdateRoundWon(float elapsedSec);
 	void UpdateRoundLost(float elaspedSec);
 	void UpdateGameOver(float elapsedSec);
+	void UpdateFinishRound(float elapsedSec);
 	// Variables
 	Player m_Player;
 	Enemy m_Enemy;
 	Texture* m_pBackground{ nullptr };
+	Texture* m_pHitMarker{ nullptr };
 	HUD m_HUD{};
 	Text m_TitleText{ "PressStart2P-Regular.ttf", 32 };
 	Text m_RoundText{ "PressStart2P-Regular.ttf", 32 };
@@ -62,4 +65,11 @@ private:
 	int m_CurrentRound{ 1 };
 	int m_Lives{ 3 };
 	float m_StateTimer{};
+
+	float m_FinishTimer{};
+	bool m_PlayerWon{};
+
+	bool m_ShowHitMarker{};
+	float m_HitMarkerTimer{ 0.f };
+	Vector2f m_HitMarkerPos{};
 };

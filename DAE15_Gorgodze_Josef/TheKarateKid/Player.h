@@ -32,6 +32,7 @@ public:
 	bool GetFacingRight() const;
 	void SetHasHit(bool hasHit);
 	void StartFall(bool hitFromRight);
+	void Defeat();
 	Rectf GetHurtBox() const;
 	Rectf GetAttackBox() const;
 
@@ -42,7 +43,7 @@ private:
 	void HandleMovement(float elapsedSec, const Uint8* keyboardState); //Detects state of every key on the keyboard
 
 	Texture* m_pSpriteSheet{ nullptr };
-	float m_MoveSpeed{ 200.f };
+	float m_MoveSpeed{ 300.f };
 	const float m_GroundY{ 100.f };
 	Rectf m_Bounds{100.f, m_GroundY, 80.f, 96.f};
 	State m_State{ State::Idle };

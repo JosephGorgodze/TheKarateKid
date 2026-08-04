@@ -31,6 +31,7 @@ public:
 	bool GetFacingRight() const;
 	int GetComboHits() const;
 	int GetMaxComboHits() const;
+	void Defeat();
 	Rectf GetBounds() const;
 	Rectf GetAttackBox() const;
 	Rectf GetHurtBox() const;
@@ -50,7 +51,7 @@ private:
 	float m_AccuSec{};
 	float m_FrameTime{ 0.15f };
 	bool m_FacingRight{ false };
-	float m_MoveSpeed{ 150.f };
+	float m_MoveSpeed{ 250.f };
 	float m_MoveDirection{ -1.f };
 	bool m_IsAttacking{ false };
 	float m_TimeUntilAttack{};

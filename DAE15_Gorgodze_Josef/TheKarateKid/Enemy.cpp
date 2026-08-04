@@ -252,7 +252,7 @@ Rectf Enemy::GetCurrentFrame() const
 		row = 7;
 		break;
 	case State::Hit:
-		row = 10;
+		row = 9;
 		break;
 	case State::Fall:
 		row = 8;
@@ -397,4 +397,16 @@ void Enemy::Reset()
 void Enemy::ResetHealth()
 {
 	m_Health = GetMaxHealth();
+}
+
+void Enemy::Defeat()
+{
+	m_State = State::Hit;
+	m_IsAttacking = false;
+	m_IsFalling = false;
+	m_VelocityY = 0.f;
+	m_FallVelocityX = 0.f;
+	m_Bounds.bottom = m_GroundY;
+	m_FrameNr = 0;
+	m_AccuSec = 0.f;
 }

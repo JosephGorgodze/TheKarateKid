@@ -19,6 +19,7 @@ Game::~Game( )
 void Game::Initialize( )
 {
 	m_pBackground = new Texture("Level1.png");
+	m_pHitMarker = new Texture("HitMarker.png");
 	srand(unsigned(time(nullptr)));
 }
 
@@ -26,11 +27,22 @@ void Game::Cleanup( )
 {
 	delete m_pBackground;
 	m_pBackground = nullptr;
+	delete m_pHitMarker;
+	m_pHitMarker = nullptr;
 }
 
 void Game::Update( float elapsedSec )
 {
 
+	if (m_ShowHitMarker)
+	{
+		m_HitMarkerTimer -= elapsedSec;
+
+		if (m_HitMarkerTimer <= 0.f)
+		{
+			m_ShowHitMarker = false;
+		}
+	}
 
 	switch (m_GamesState)
 	{
@@ -39,6 +51,9 @@ void Game::Update( float elapsedSec )
 		break;
 	case GameState::Playing:
 		UpdateGameplay(elapsedSec);
+		break;
+	case GameState::FinishRound:
+		UpdateFinishRound(elapsedSec);
 		break;
 	case GameState::RoundWon:
 		UpdateRoundWon(elapsedSec);
@@ -96,6 +111,10 @@ void Game::UpdateGameplay(float elapsedSec)
 				m_Enemy.StartFall(playerIsRightOfEnemy);
 				m_Player.SetHasHit(true);
 				m_Enemy.TakeDamage(2);
+				m_ShowHitMarker = true;
+				m_HitMarkerTimer = 0.15f;
+				Rectf hurtBox = m_Player.GetAttackBox();
+				m_HitMarkerPos = Vector2f( hurtBox.left + hurtBox.width * 0.5f - 20.f, hurtBox.bottom + hurtBox.height * 0.5f - 20.f );
 			}
 		}
 	}
@@ -108,22 +127,31 @@ void Game::UpdateGameplay(float elapsedSec)
 			m_Player.StartFall(enemyIsRightOfPlayer);
 			m_Enemy.SetHasHit(true);
 			m_Player.TakeDamage(2);
+			m_ShowHitMarker = true;
+			m_HitMarkerTimer = 0.15f;
+			Rectf hurtBox = m_Enemy.GetAttackBox();
+			m_HitMarkerPos = Vector2f( hurtBox.left + hurtBox.width * 0.5f - 20.f, hurtBox.bottom + hurtBox.height * 0.5f - 20.f );
 		}
 	}
 
 	if (m_Enemy.GetHealth() <= 0)
 	{
-		m_GamesState = GameState::RoundWon;
+		m_Enemy.Defeat();
+		m_PlayerWon = true;
+		m_FinishTimer = 0.f;
+		m_GamesState = GameState::FinishRound;
 		m_StateTimer = 0.f;
 		m_RoundText.SetText("ROUND WON");
 	}
 
 	if (m_Player.GetHealth() <= 0)
 	{
+		m_Player.Defeat();
+		m_PlayerWon = false;
+		m_GamesState = GameState::FinishRound;
 		m_Lives--;
 		std::cout << "Lives: " << m_Lives << '\n';
 		m_LivesText.SetText("CHANCES REAMINING " + std::to_string(m_Lives) + ".");
-		m_GamesState = GameState::RoundLost;
 		m_StateTimer = 0.f;
 		m_RoundText.SetText("ROUND LOST");
 	}
@@ -181,7 +209,25 @@ void Game::UpdateGameOver(float elapsedSec)
 	
 }
 
+void Game::UpdateFinishRound(float elapsedSec)
+{
+	m_FinishTimer += elapsedSec;
 
+	if (m_FinishTimer >= 2.f)
+	{
+		if (m_PlayerWon)
+		{
+			m_RoundText.SetText("ROUND WON");
+			m_GamesState = GameState::RoundWon;
+		}
+		else
+		{
+			m_RoundText.SetText("ROUND LOST");
+			m_GamesState = GameState::RoundLost;
+		}
+		m_StateTimer = 0.f;
+	}
+}
 
 
 void Game::Draw() const
@@ -194,26 +240,32 @@ void Game::Draw() const
 	case GameState::Intro:
 	case GameState::RoundLost:
 	case GameState::RoundWon:
-	case GameState::GameOver:
 		m_TitleText.Draw(Vector2f(130.f, 430.f));
 		m_RoundText.Draw(Vector2f{ 200.f, 300.f });
 		m_LivesText.Draw(Vector2f{ 100.f, 120.f });
 		break;
-		
+	case GameState::GameOver:
+		m_RoundText.Draw(Vector2f(200.f, 300.f));
+		break;
 	case GameState::Playing:
+	case GameState::FinishRound:
 		m_pBackground->Draw();
 		m_Player.Draw();
 		m_Enemy.Draw();
 		m_HUD.Draw(m_Player, m_Enemy);
 
 		utils::SetColor(Color4f(1.f, 1.f, 1.f, 1.f));
-		utils::DrawRect(m_Player.GetAttackBox());
-		utils::DrawRect(m_Player.GetHurtBox());
+		//utils::DrawRect(m_Player.GetAttackBox());
+		//utils::DrawRect(m_Player.GetHurtBox());
 
 		utils::SetColor(Color4f(1.f, 0.f, 0.f, 1.f));
-		utils::DrawRect(m_Enemy.GetAttackBox());
-		utils::DrawRect(m_Enemy.GetHurtBox());
+		//utils::DrawRect(m_Enemy.GetAttackBox());
+		//utils::DrawRect(m_Enemy.GetHurtBox());
 
+		if (m_ShowHitMarker)
+		{
+			m_pHitMarker->Draw(m_HitMarkerPos);
+		}
 		break;
 	}
 }
