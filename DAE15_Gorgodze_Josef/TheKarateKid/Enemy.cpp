@@ -16,14 +16,27 @@ Enemy::~Enemy()
 
 void Enemy::EnemyUpdate(float elapsedSec, const Rectf& playerBounds)
 {
+	if (m_IsHitStunned)
+	{
+		m_HitStunTimer -= elapsedSec;
+
+		if (m_HitStunTimer <= 0.f)
+		{
+			m_IsHitStunned = false;
+			m_State = State::Idle;
+		}
+	}
+
 	UpdateFall(elapsedSec);
 	Think(playerBounds);
 	Move(elapsedSec);
 	UpdateAnimation(elapsedSec);
+
 	if (m_TimeUntilAttack > 0.f)
 	{
 		m_TimeUntilAttack -= elapsedSec;
 	}
+	m_WasAttacking = AttackIsActive();
 }
 
 void Enemy::Draw() const
@@ -72,7 +85,7 @@ bool Enemy::AnimationLoops() const
 
 void Enemy::Think(const Rectf& playerBounds)
 {
-	if (m_IsAttacking || m_IsFalling)
+	if (m_IsAttacking || m_IsFalling || m_IsHitStunned)
 	{
 		return;
 	}
@@ -134,6 +147,7 @@ void Enemy::Move(float elapsedSec)
 void Enemy::StartAttack()
 {
 	m_IsAttacking = true;
+	m_PlayPunchSound = true;
 	
 	switch (rand()%4)
 	{
@@ -154,7 +168,7 @@ void Enemy::StartAttack()
 	m_FrameNr = 0;
 	m_AccuSec = 0.f;
 	m_HasHit = false;
-	m_TimeUntilAttack = 0.8f + float(rand() % 8) / 10.f; // Attack Cooldown
+	m_TimeUntilAttack = 0.3f + float(rand() % 5) / 10.f; // Attack Cooldown
 }
 
 bool Enemy::isAttacking() const
@@ -187,6 +201,16 @@ int Enemy::GetMaxComboHits() const
 	return m_MaxComboHits;
 }
 
+void Enemy::StartHitStun()
+{
+	m_IsHitStunned = true;
+	m_HitStunTimer = 0.25;
+	m_State = State::Hit;
+	m_FrameNr = 0;
+	m_AccuSec = 0.f;
+	m_IsAttacking = false;	
+}
+
 void Enemy::UpdateAnimation(float elapsedSec)
 {
 	if (GetFrameCount() == 1)
@@ -209,7 +233,10 @@ void Enemy::UpdateAnimation(float elapsedSec)
 			else
 			{
 				m_IsAttacking = false;
-				m_State = State::Idle;
+				if (!m_IsHitStunned)
+				{
+					m_State = State::Idle;
+				}
 				m_FrameNr = 0;
 			}
 		}
@@ -392,6 +419,8 @@ void Enemy::Reset()
 	m_HasHit = false;
 	m_TimeUntilAttack = 0.f;
 	m_ComboHits = 0;
+	m_IsHitStunned = false;
+	m_HitStunTimer = 0.f;
 }
 
 void Enemy::ResetHealth()
@@ -409,4 +438,16 @@ void Enemy::Defeat()
 	m_Bounds.bottom = m_GroundY;
 	m_FrameNr = 0;
 	m_AccuSec = 0.f;
+	m_IsHitStunned = false;
+	m_HitStunTimer = 0.f;
+}
+
+bool Enemy::JustStartedAttack()
+{
+	if (m_PlayPunchSound)
+	{
+		m_PlayPunchSound = false;
+		return true;
+	}
+	return false;
 }

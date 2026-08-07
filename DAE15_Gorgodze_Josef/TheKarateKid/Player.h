@@ -14,7 +14,9 @@ public:
 		CrouchPunch,
 		CrouchKick,
 		Hit,
-		Fall
+		Fall,
+		CraneKick,
+		DrumPunch
 	};
 	Player();
 	~Player();
@@ -27,14 +29,32 @@ public:
 	Rectf GetBounds() const;
 
 	bool GetIsAttacking() const;
+	bool JustStartedAttack();
 	bool AttackIsActive() const;
-	bool GetHasHit() const;
+	int GetHitsThisAttack() const;
+	void AddHitThisAttack();
+	int GetMaxHitsThisAttack();
+	int GetFrameNr() const;
 	bool GetFacingRight() const;
-	void SetHasHit(bool hasHit);
+
+	int GetCraneKickCount() const;
+	void UseCraneKick();
+	int GetDrumPunchCount() const;
+	void UseDrumPunch();
+
+	int GetCurrentFrameNumber() const;
+	bool CanHitFrame() const;
+	void RegisterHitFrame();
 	void StartFall(bool hitFromRight);
 	void Defeat();
+	bool GetIsFalling() const;
 	Rectf GetHurtBox() const;
 	Rectf GetAttackBox() const;
+	State GetState() const;
+
+	int GetComboHits() const;
+	int GetMaxComboHits() const;
+	void ResetComboHits();
 
 	int GetHealth() const;
 	int GetMaxHealth() const;
@@ -56,7 +76,16 @@ private:
 	bool m_OnGround{ true };
 	bool m_IsAttacking{};
 	bool m_IsCrouching{ false };
-	bool m_HasHit{};
+	int m_HitsThisAttack{};
+	bool m_WasAttacking{};
+	bool m_PlayPunchSound{};
+	int m_LastHitFrame{ -1 };
+
+	int m_CraneKickCount{ 2 };
+	int m_DrumPunchCount{ 2 };
+
+	int m_ComboHits{};
+	const int m_MaxComboHits{ 3 };
 
 	int m_Health{20};
 	static constexpr int m_MaxHealth{ 20 };

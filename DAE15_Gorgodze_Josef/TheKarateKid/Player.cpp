@@ -30,7 +30,8 @@ void Player::Reset()
 	m_VelocityY = 0.f;
 	m_FallVelocityX = 0.f;
 	m_FacingRight = true;
-	m_HasHit = false;
+	m_HitsThisAttack = 0;
+	m_LastHitFrame = -1;
 }
 
 void Player::ResetHealth()
@@ -44,6 +45,7 @@ void Player::PlayerUpdate(float elapsedSec)
 	HandleMovement(elapsedSec, keyboardState);
 	UpdateAnimation(elapsedSec);
 	UpdateFall(elapsedSec);
+	m_WasAttacking = AttackIsActive();
 }
 
 void Player::Draw() const
@@ -91,7 +93,9 @@ void Player::UpdateAnimation(float elapsedSec)
 				if (m_State == State::Punch ||
 					m_State == State::Kick ||
 					m_State == State::CrouchPunch ||
-					m_State == State::CrouchKick)
+					m_State == State::CrouchKick ||
+					m_State == State::CraneKick ||
+					m_State == State::DrumPunch)
 				{
 					m_IsAttacking = false;
 
@@ -191,6 +195,11 @@ void Player::HandleMovement(float elapsedSec, const Uint8* keyboardState)
 		{
 			StartAttack(State::CrouchKick);
 		}
+		else if (m_State == State::Idle && m_CraneKickCount > 0)
+		{
+			UseCraneKick();
+			StartAttack(State::CraneKick);
+		}
 		else
 		{
 			StartAttack(State::Kick);
@@ -201,6 +210,11 @@ void Player::HandleMovement(float elapsedSec, const Uint8* keyboardState)
 		if (m_IsCrouching)
 		{
 			StartAttack(State::CrouchPunch);
+		}
+		else if (m_State == State::Idle && m_DrumPunchCount > 0)
+		{
+			UseDrumPunch();
+			StartAttack(State::DrumPunch);
 		}
 		else
 		{
@@ -268,6 +282,12 @@ Rectf Player::GetCurrentFrame() const
 	case State::Fall:
 		row = 8;
 		break;
+	case State::CraneKick:
+		row = 10;
+		break;
+	case State::DrumPunch:
+		row = 11;
+		break;
 	default:
 		row = 0;
 		break;
@@ -293,6 +313,10 @@ int Player::GetFrameCount() const
 		return 2;
 	case State::CrouchKick:
 		return 2;
+	case State::CraneKick:
+		return 5;
+	case State::DrumPunch:
+		return 5;
 	default:
 		return 1;
 	}
@@ -304,11 +328,14 @@ void Player::StartAttack(State attackState)
 	m_State = attackState;
 	m_FrameNr = 0;
 	m_AccuSec = 0.f;
-	m_HasHit = false;
+	m_HitsThisAttack = 0;
+	m_LastHitFrame = -1;
+	m_PlayPunchSound = true;
 }
 
 void Player::StartFall(bool hitFromRight)
 {
+	++m_ComboHits;
 	m_IsAttacking = false;
 	m_OnGround = false;
 	m_IsFalling = true;
@@ -336,6 +363,11 @@ void Player::Defeat()
 	m_Bounds.bottom = m_GroundY;
 	m_FrameNr = 0;
 	m_AccuSec = 0.f;
+}
+
+bool Player::GetIsFalling() const
+{
+	return m_IsFalling;
 }
 
 int Player::GetHealth() const
@@ -375,17 +407,51 @@ void Player::UpdateFall(float elapsedSec)
 		m_FallVelocityX = 0.f;
 		m_VelocityY = 0.f;
 		m_State = State::Idle;
+		m_ComboHits = 0;
 	}
 }
 
-void Player::SetHasHit(bool hasHit)
+int Player::GetCraneKickCount() const
 {
-	m_HasHit = hasHit;
+	return m_CraneKickCount;
 }
 
-bool Player::GetHasHit() const
+void Player::UseCraneKick()
 {
-	return m_HasHit;
+	if (m_CraneKickCount > 0)
+	{
+		--m_CraneKickCount;
+	}
+}
+
+int Player::GetDrumPunchCount() const
+{
+	return m_DrumPunchCount;
+}
+
+void Player::UseDrumPunch()
+{
+	if (m_DrumPunchCount > 0)
+	{
+		--m_DrumPunchCount;
+	}
+}
+
+int Player::GetCurrentFrameNumber() const
+{
+	return m_FrameNr;
+}
+
+bool Player::CanHitFrame() const
+{
+	if (m_FrameNr == m_LastHitFrame)
+		return false;
+	return true;
+}
+
+void Player::RegisterHitFrame()
+{
+	m_LastHitFrame = m_FrameNr;
 }
 
 bool Player::GetFacingRight() const
@@ -398,11 +464,55 @@ bool Player::GetIsAttacking() const
 	return m_IsAttacking;
 }
 
+bool Player::JustStartedAttack()
+{
+	if (m_PlayPunchSound)
+	{
+		m_PlayPunchSound = false;
+		return true;
+	}
+	return false;
+}
+
 bool Player::AttackIsActive() const
 {
 	if (!m_IsAttacking)
 		return false;
+	if (m_State == State::CraneKick)
+	{
+		return m_FrameNr == 2 || m_FrameNr == 3;
+	}
+
+	if (m_State == State::DrumPunch)
+	{
+		return m_FrameNr == 2 || m_FrameNr == 4;
+	}
 	return m_FrameNr == 1;
+}
+
+int Player::GetHitsThisAttack() const
+{
+	return m_HitsThisAttack;
+}
+
+void Player::AddHitThisAttack()
+{
+	++m_HitsThisAttack;
+}
+
+int Player::GetMaxHitsThisAttack()
+{
+	if (m_State == State::CraneKick)
+		return 2;
+	if (m_State == State::DrumPunch)
+		return 2;
+
+	return 1;
+}
+
+int Player::GetFrameNr() const
+{
+	return m_FrameNr;
 }
 
 Rectf Player::GetBounds() const
@@ -444,4 +554,24 @@ Rectf Player::GetAttackBox() const
 		return Rectf{ m_Bounds.left + m_Bounds.width - 30.f, y + 30.f, 35.f, 25.f };
 	}
 	return Rectf{ m_Bounds.left, y + 30.f, 35.f, 25.f };
+}
+
+Player::State Player::GetState() const
+{
+	return m_State;
+}
+
+
+void Player::ResetComboHits()
+{
+	m_ComboHits = 0;
+}
+
+int Player::GetComboHits() const
+{
+	return m_ComboHits;
+}
+int Player::GetMaxComboHits() const
+{
+	return m_MaxComboHits;
 }

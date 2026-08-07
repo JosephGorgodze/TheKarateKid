@@ -3,10 +3,10 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "HUD.h"
-#include "Text.h"
 
 enum class GameState
 {
+	MainMenu,
 	Intro,
 	Playing,
 	FinishRound,
@@ -49,18 +49,20 @@ private:
 	void UpdateRoundLost(float elaspedSec);
 	void UpdateGameOver(float elapsedSec);
 	void UpdateFinishRound(float elapsedSec);
+	void UpdateMainMenu(float elapsedSec);
 	// Variables
 	Player m_Player;
 	Enemy m_Enemy;
 	Texture* m_pBackground{ nullptr };
 	Texture* m_pHitMarker{ nullptr };
+	Texture* m_pMainMenu{ nullptr };
 	HUD m_HUD{};
 	Text m_TitleText{ "PressStart2P-Regular.ttf", 32 };
 	Text m_RoundText{ "PressStart2P-Regular.ttf", 32 };
 	Text m_LivesText{ "PressStart2P-Regular.ttf", 32 };
 
 
-	GameState m_GamesState{ GameState::Intro };
+	GameState m_GamesState{ GameState::MainMenu };
 
 	int m_CurrentRound{ 1 };
 	int m_Lives{ 3 };
@@ -72,4 +74,13 @@ private:
 	bool m_ShowHitMarker{};
 	float m_HitMarkerTimer{ 0.f };
 	Vector2f m_HitMarkerPos{};
+
+	Mix_Music* m_pMenuMusic{};
+	Mix_Music* m_pFightMusic{};
+	Mix_Chunk* m_pPunchSound{};
+	Mix_Chunk* m_pHitSound{};
+	Mix_Chunk* m_pWinSound{};
+	Mix_Chunk* m_pLoseSound{};
+
+	int m_Score{ 0 };
 };

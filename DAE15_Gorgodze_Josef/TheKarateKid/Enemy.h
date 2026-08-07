@@ -25,12 +25,14 @@ public:
 	void EnemyUpdate(float elapsedSec, const Rectf& playerBounds);
 	void Draw() const;
 	bool AttackIsActive() const;
+	bool JustStartedAttack();
 	bool isAttacking() const;
 	bool GetHasHit() const;
 	void SetHasHit(bool hasHit);
 	bool GetFacingRight() const;
 	int GetComboHits() const;
 	int GetMaxComboHits() const;
+	void StartHitStun();
 	void Defeat();
 	Rectf GetBounds() const;
 	Rectf GetAttackBox() const;
@@ -56,6 +58,10 @@ private:
 	bool m_IsAttacking{ false };
 	float m_TimeUntilAttack{};
 	bool m_HasHit{};
+	bool m_WasAttacking{};
+	bool m_PlayPunchSound{};
+	bool m_IsHitStunned{};
+	float m_HitStunTimer{ 0.f };
 
 	int m_Health{ 20 };
 	static constexpr int m_MaxHealth{ 20 };
