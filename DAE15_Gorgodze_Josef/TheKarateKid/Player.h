@@ -1,5 +1,6 @@
 #pragma once
 #include <Texture.h>
+#include <vector>
 class Player
 {
 public:
@@ -22,7 +23,7 @@ public:
 	~Player();
 	void Reset();
 	void ResetHealth();
-	void PlayerUpdate(float elapsedSec);
+	void PlayerUpdate(float elapsedSec, const std::vector<Vector2f>& groundVertices = {});
 	void Draw() const;
 	void UpdateAnimation(float elapsedSec);
 	bool AnimationLoops() const;
@@ -59,8 +60,14 @@ public:
 	int GetHealth() const;
 	int GetMaxHealth() const;
 	void TakeDamage(int damage);
+
+	//Platformer
+	void SetPosition(float x, float y);
+	void SetPlatformerMode(bool platformer);
+	void HandleGroundCollision(const std::vector<Vector2f>& groundVertices);
+	bool HandleWallCollision(const std::vector<Vector2f>& groundVertices, float movement);
 private:
-	void HandleMovement(float elapsedSec, const Uint8* keyboardState); //Detects state of every key on the keyboard
+	void HandleMovement(float elapsedSec, const Uint8* keyboardState, const std::vector<Vector2f>& groundVertices); //Detects state of every key on the keyboard
 
 	Texture* m_pSpriteSheet{ nullptr };
 	float m_MoveSpeed{ 300.f };
@@ -98,5 +105,8 @@ private:
 	int GetFrameCount() const;
 	void StartAttack(State attackState);
 	void UpdateFall(float elapsedSec);
+
+	//Platformer
+	bool m_PlatformerMode{};
 };
 

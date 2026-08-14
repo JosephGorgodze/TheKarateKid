@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "HUD.h"
+#include <vector>
 
 enum class GameState
 {
@@ -12,7 +13,8 @@ enum class GameState
 	FinishRound,
 	RoundWon,
 	RoundLost,
-	GameOver
+	GameOver,
+	Platformer
 };
 
 class Game : public BaseGame
@@ -50,19 +52,22 @@ private:
 	void UpdateGameOver(float elapsedSec);
 	void UpdateFinishRound(float elapsedSec);
 	void UpdateMainMenu(float elapsedSec);
+	void UpdatePlatformer(float elapsedSec);
 	// Variables
 	Player m_Player;
+	Player m_PlatformerPlayer;
 	Enemy m_Enemy;
 	Texture* m_pBackground{ nullptr };
 	Texture* m_pHitMarker{ nullptr };
 	Texture* m_pMainMenu{ nullptr };
+	Texture* m_pPlatformerLevel{ nullptr };
 	HUD m_HUD{};
 	Text m_TitleText{ "PressStart2P-Regular.ttf", 32 };
 	Text m_RoundText{ "PressStart2P-Regular.ttf", 32 };
 	Text m_LivesText{ "PressStart2P-Regular.ttf", 32 };
 
 
-	GameState m_GamesState{ GameState::MainMenu };
+	GameState m_GamesState{ GameState::Platformer }; // For now
 
 	int m_CurrentRound{ 1 };
 	int m_Lives{ 3 };
@@ -83,4 +88,7 @@ private:
 	Mix_Chunk* m_pLoseSound{};
 
 	int m_Score{ 0 };
+	
+	//Platforms
+	std::vector<Vector2f> m_GroundVertices;	
 };

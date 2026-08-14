@@ -21,6 +21,7 @@ void Game::Initialize( )
 	m_pBackground = new Texture("Level1.png");
 	m_pHitMarker = new Texture("HitMarker.png");
 	m_pMainMenu = new Texture("MainMenu.png");
+	m_pPlatformerLevel = new Texture("PlatformerLevel.png");
 
 	srand(unsigned(time(nullptr)));
 
@@ -32,11 +33,15 @@ void Game::Initialize( )
 	m_pWinSound = Mix_LoadWAV("Win.wav");
 	m_pLoseSound = Mix_LoadWAV("Lose.wav");
 
+	m_PlatformerPlayer.Reset();
+	m_PlatformerPlayer.SetPosition(100.f, 180.f);
+	m_PlatformerPlayer.SetPlatformerMode(true);
+
 	if (!m_pMenuMusic)
 	{
 		std::cout << Mix_GetError() << '\n';
 	}
-	Mix_PlayMusic(m_pMenuMusic, -1);
+	//Mix_PlayMusic(m_pMenuMusic, -1); for now
 
 	if (!m_pPunchSound)
 	{
@@ -47,6 +52,15 @@ void Game::Initialize( )
 	{
 		std::cout << "Hit " << Mix_GetError() << '\n';
 	}
+
+	//Platforms
+	m_GroundVertices =
+	{
+	Vector2f{0.f, 180.f},
+	Vector2f{300.f, 180.f},
+	Vector2f{300.f, 200.f},
+	Vector2f{400.f, 200.f}
+	};
 }
 
 void Game::Cleanup( )
@@ -57,6 +71,8 @@ void Game::Cleanup( )
 	m_pHitMarker = nullptr;
 	delete m_pMainMenu;
 	m_pMainMenu = nullptr;
+	delete m_pPlatformerLevel;
+	m_pPlatformerLevel = nullptr;
 
 	Mix_FreeMusic(m_pMenuMusic);
 	m_pMenuMusic = nullptr;
@@ -106,6 +122,9 @@ void Game::Update( float elapsedSec )
 		break;
 	case GameState::GameOver:
 		UpdateGameOver(elapsedSec);
+		break;
+	case GameState::Platformer:
+		UpdatePlatformer(elapsedSec);
 		break;
 	}
 }
@@ -269,8 +288,7 @@ void Game::UpdateRoundWon(float elapsedSec)
 		m_CurrentRound++;
 		if (m_CurrentRound > 3)
 		{
-			m_RoundText.SetText("YOU WIN");
-			m_GamesState = GameState::GameOver;
+			m_GamesState = GameState::Platformer;
 		}
 		else
 		{
@@ -358,6 +376,17 @@ void Game::UpdateMainMenu(float elapsedSec)
 
 }
 
+void Game::UpdatePlatformer(float elapsedSec)
+{
+	m_PlatformerPlayer.PlayerUpdate(elapsedSec, m_GroundVertices);
+	m_PlatformerPlayer.HandleGroundCollision(m_GroundVertices);
+}
+
+
+
+
+
+
 
 void Game::Draw() const
 {
@@ -385,6 +414,15 @@ void Game::Draw() const
 		m_Player.Draw();
 		m_Enemy.Draw();
 		m_HUD.Draw(m_Player, m_Enemy);
+		break;
+	case GameState::Platformer:
+		m_pPlatformerLevel->Draw(Vector2f{ 0.f,0.f });
+		m_PlatformerPlayer.Draw();
+		for (int i{}; i + 1 < m_GroundVertices.size(); ++i)
+		{
+			utils::DrawLine(m_GroundVertices[i], m_GroundVertices[i + 1]);
+		}
+		break;
 
 		utils::SetColor(Color4f(1.f, 1.f, 1.f, 1.f));
 		//utils::DrawRect(m_Player.GetAttackBox());

@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Player.h"
 #include <iostream>
+#include <utils.h>
+#include <cmath>
 
 Player::Player()
 {
@@ -39,10 +41,10 @@ void Player::ResetHealth()
 	m_Health = GetMaxHealth();
 }
 
-void Player::PlayerUpdate(float elapsedSec)
+void Player::PlayerUpdate(float elapsedSec, const std::vector<Vector2f>& groundVertices)
 {
 	const Uint8* keyboardState = SDL_GetKeyboardState(nullptr);
-	HandleMovement(elapsedSec, keyboardState);
+	HandleMovement(elapsedSec, keyboardState, groundVertices);
 	UpdateAnimation(elapsedSec);
 	UpdateFall(elapsedSec);
 	m_WasAttacking = AttackIsActive();
@@ -126,19 +128,97 @@ bool Player::AnimationLoops() const
 }
 
 
-void Player::HandleMovement(float elapsedSec, const Uint8* keyboardState)
+void Player::SetPosition(float x, float y)
+{
+	m_Bounds.left = x;
+	m_Bounds.bottom = y;
+}
+
+void Player::SetPlatformerMode(bool platformer)
+{
+	m_PlatformerMode = platformer;
+}
+
+void Player::HandleGroundCollision(const std::vector<Vector2f>& groundVertices)
+{
+	if (m_VelocityY > 0.f)
+	{
+		return;
+	}
+	m_OnGround = false;
+	Vector2f rayCastLeft{ m_Bounds.left, m_Bounds.bottom + 5.f };
+	Vector2f rayEndLeft{ m_Bounds.left, m_Bounds.bottom - 10.f };
+	Vector2f rayStartRight{ m_Bounds.left + m_Bounds.width, m_Bounds.bottom + 5.f};
+	Vector2f rayEndRight{ m_Bounds.left + m_Bounds.width, m_Bounds.bottom - 10.f };
+
+	utils::HitInfo hitInfoLeft{};
+	utils::HitInfo hitInfoRight{};
+
+	bool hitLeft = utils::Raycast(groundVertices, rayCastLeft, rayEndLeft, hitInfoLeft);
+	bool hitRight = utils::Raycast(groundVertices, rayStartRight, rayEndRight, hitInfoRight);
+
+	if (hitLeft && hitInfoLeft.normal.y > 0.5f)
+	{
+		m_Bounds.bottom = hitInfoLeft.intersectPoint.y;
+		m_VelocityY = 0.f;
+		m_OnGround = true;
+	}
+	else if (hitRight && hitInfoRight.normal.y > 0.5f)
+	{
+		m_Bounds.bottom = hitInfoRight.intersectPoint.y;
+		m_VelocityY = 0.f;
+		m_OnGround = true;
+	}
+}
+
+bool Player::HandleWallCollision(const std::vector<Vector2f>& groundVertices, float movement)
+{
+	if (movement == 0.f)
+	{
+		return false;
+	}
+
+	Vector2f rayStart{};
+	Vector2f rayEnd{};
+
+	if (movement > 0.f)
+	{
+		rayStart = Vector2f{ m_Bounds.left + m_Bounds.width, m_Bounds.bottom + 5.f };
+		rayEnd = Vector2f{ m_Bounds.left + m_Bounds.width + movement, m_Bounds.bottom + 5.f };
+	}
+	else
+	{
+		rayStart = Vector2f{ m_Bounds.left, m_Bounds.bottom + 5.f };
+		rayEnd = Vector2f{ m_Bounds.left + movement, m_Bounds.bottom + 5.f };
+	}
+
+	utils::HitInfo hitInfo{};
+	bool hit = utils::Raycast(groundVertices, rayStart, rayEnd, hitInfo);
+
+	if (hit && std::abs(hitInfo.normal.x) > 0.5f)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void Player::HandleMovement(float elapsedSec, const Uint8* keyboardState, const std::vector<Vector2f>& groundVertices)
 {
 	State previousState{ m_State };
-	const float leftLimit{ 100.f };
-	const float rightLimit{ 600.f };
+	if (!m_PlatformerMode)
+	{
+		const float leftLimit{ 100.f };
+		const float rightLimit{ 600.f };
 
-	if (m_Bounds.left < leftLimit)
-	{
-		m_Bounds.left = leftLimit;
-	}
-	else if (m_Bounds.left > rightLimit)
-	{
-		m_Bounds.left = rightLimit;
+		if (m_Bounds.left < leftLimit)
+		{
+			m_Bounds.left = leftLimit;
+		}
+		else if (m_Bounds.left > rightLimit)
+		{
+			m_Bounds.left = rightLimit;
+		}
 	}
 
 	if (m_IsAttacking || m_IsFalling)
@@ -165,7 +245,11 @@ void Player::HandleMovement(float elapsedSec, const Uint8* keyboardState)
 
 	if (!m_IsCrouching && keyboardState[SDL_SCANCODE_LEFT])
 	{
-		m_Bounds.left -= m_MoveSpeed * elapsedSec;
+		float movement = -m_MoveSpeed * elapsedSec;
+		if (!HandleWallCollision(groundVertices, movement))
+		{
+			m_Bounds.left += movement;
+		}
 		if (m_OnGround)
 		{
 			m_State = State::Walk;
@@ -174,7 +258,11 @@ void Player::HandleMovement(float elapsedSec, const Uint8* keyboardState)
 	}
 	else if (!m_IsCrouching && keyboardState[SDL_SCANCODE_RIGHT])
 	{
-		m_Bounds.left += m_MoveSpeed * elapsedSec;
+		float movement = m_MoveSpeed * elapsedSec;
+		if (!HandleWallCollision(groundVertices, movement))
+		{
+			m_Bounds.left += movement;
+		}
 		if (m_OnGround)
 		{
 			m_State = State::Walk;
@@ -233,7 +321,7 @@ void Player::HandleMovement(float elapsedSec, const Uint8* keyboardState)
 		m_VelocityY += m_Gravity * elapsedSec;
 		m_Bounds.bottom += m_VelocityY * elapsedSec;
 
-		if (m_Bounds.bottom <= 100.f)
+		if (!m_PlatformerMode && m_Bounds.bottom <= 100.f)
 		{
 			m_Bounds.bottom = 100.f;
 			m_VelocityY = 0.f;
