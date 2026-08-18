@@ -109,10 +109,10 @@ Use arrow keys to move around and jump with up key. You can punch with X and kic
 ## Class structure 
 
 ### Object composition 
-If you applied object composition (optional); explain where and how.
+I applied object composition in the game class. The game class contains objects like Player, Camera, Enemy... This enables the Game class to leverage these objects' functionality rather than implementing everything on its own.
 
 ### Inheritance 
-Explain where you applied inheritance (mandatory).
+Applied inheritance in game class. It inherits from BaseGame using class Game : public BaseGame. This enables Game to override functions like Update(), Draw(), and the event-handling functions and reuse BaseGame's functionality.
 
 ### ..
 
@@ -123,19 +123,19 @@ Explain where you applied inheritance (mandatory).
 ## Checklist
 
 - [x] Accept / set up github project
-- [ ] week 01 topics applied
+- [X] week 01 topics applied
     - [X] const keyword applied proactively (variables, functions,..)
-    - [ ] static keyword applied proactively (class variables, static functions,..)
+    - [X] static keyword applied proactively (class variables, static functions,..)
     - [X] object composition (optional)
 - [X] week 02 topics applied
 - [X] week 03 topics applied
 - [X] week 04 topics applied
-- [ ] week 05 topics applied
-- [ ] week 06 topics applied
+- [X] week 05 topics applied
+- [X] week 06 topics applied
 - [ ] week 07 topics applied
-- [ ] week 08 topics applied
+- [X] week 08 topics applied
 - [ ] week 09 topics applied (optional)
-- [ ] week 10 topics applied (optional)
+- [X] week 10 topics applied (optional)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -144,7 +144,7 @@ Explain where you applied inheritance (mandatory).
 
 Josef Gorgodze - Josef.GORGODZE@student.howest.be
 
-Project Link: [https://github.com/JosephGorgodze/DuckHunt.git)
+Project Link: [https://github.com/JosephGorgodze/TheKarateKid)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -154,8 +154,8 @@ Project Link: [https://github.com/JosephGorgodze/DuckHunt.git)
 
 Use this space to list resources you find helpful and would like to give credit to. 
 
-* [Example 1: cpp reference on std::vector](https://en.cppreference.com/w/cpp/container/vector)
-* ..
+* spriters-resource.com
+* 101soundboards.com
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
